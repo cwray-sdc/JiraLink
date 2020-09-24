@@ -14,8 +14,8 @@ This is a Chrome extension to make JIRA ticket numbers clickable on GitHub.com
 
 This will work for any Pull Request with the following format
 
-WEBAPPS-XXXX: Description
-WEBAPPS-XXXX : Description
+WEBAPPS-XXXX: Description  
+WEBAPPS-XXXX : Description  
 WEBAPPS-XXXX - Description
 
 Note: WEBAPPS is case-insensitive
