@@ -19,12 +19,12 @@ chrome.extension.sendMessage({}, (response) => {
 
 				if (link.innerText.indexOf(':') !== -1) {
 					c = link.innerText.split(':');
-				} else if (link.innerText.indexOf(':') !== -1) {
-					c = link.innerText.split('-');
+				} else if (link.innerText.indexOf(' - ') !== -1) {
+					c = link.innerText.split(' - ');
 				}
 	
-				if (c) {
-					link.innerHTML = `<a target="_blank" href="http://jira/browse/${c[0].trim()}">${c[0]}</a>:${c[1]}`;
+				if (c && c.length === 2 && c[0].toLowerCase().indexOf('webapps') === 0) {
+					link.innerHTML = `<a target="_blank" href="http://jira/browse/${c[0].trim()}">${c[0]}</a>: ${c[1].trim()}`;
 				}
 			}
 		})
