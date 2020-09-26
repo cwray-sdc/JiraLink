@@ -1,35 +1,71 @@
 chrome.extension.sendMessage({}, (response) => {
 	const readyStateCheckInterval = setInterval(() => {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+		if (document.readyState === "complete") {
+			clearInterval(readyStateCheckInterval);
 
-		const body = document.getElementsByTagName('body')[0];
+			const body = document.getElementsByTagName('body')[0];
 
-		const targets = ['js-issue-title'];
+			if (window.location.host.indexOf('atlassian') === -1) {
+				const targets = ['js-issue-title'];
 
+				targets.map(target => {
 		
-		targets.map(target => {
+					const links = body.getElementsByClassName(target);
+		
+					for (let index = 0; index < links.length; index++) {
+						const link = links[index];
+			
+						let c;
+		
+						if (link.innerText.indexOf(':') !== -1) {
+							c = link.innerText.split(':');
+						} else if (link.innerText.indexOf(' - ') !== -1) {
+							c = link.innerText.split(' - ');
+						}
+			
+						if (c && c.length === 2 && c[0].toLowerCase().indexOf('webapps') === 0) {
+							link.innerHTML = `
+								<a 
+									target="_blank" 
+									href="http://jira/browse/${c[0].trim()}/?githubUrl=${window.location.href}&jiraId=${c[0].trim()}"
+								>${c[0]}</a>: ${c[1].trim()}
+								<a 
+									target="_blank" 
+									style="background-color: #0366d6; color: #fff; padding: 2px; border-radius: 3px; font-size: 1rem;" 
+									href="http://jira/browse/${c[0].trim()}/?githubUrl=${window.location.href}&jiraId=${c[0].trim()}">Link PR to Jira</a>
+							`;
+						}
+					}
+				})
+			} else {
+				const urlParams = new URLSearchParams(window.location.search);
 
-			const links = body.getElementsByClassName(target);
+				if (urlParams.get('githubUrl')) {
 
-			for (let index = 0; index < links.length; index++) {
-				const link = links[index];
-	
-				let c;
+					const postData = {
+						"object": {
+							"url": urlParams.get('githubUrl'),
+							"title":"GitHub.com Pull Request"
+						}
+					};
 
-				if (link.innerText.indexOf(':') !== -1) {
-					c = link.innerText.split(':');
-				} else if (link.innerText.indexOf(' - ') !== -1) {
-					c = link.innerText.split(' - ');
-				}
-	
-				if (c && c.length === 2 && c[0].toLowerCase().indexOf('webapps') === 0) {
-					link.innerHTML = `<a target="_blank" href="http://jira/browse/${c[0].trim()}">${c[0]}</a>: ${c[1].trim()}`;
+					const axiosConfig = {
+						headers: {
+						'Content-Type': 'application/json;charset=UTF-8',
+						}
+					};
+
+					axios.post(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
+					.then((res) => {
+						console.log("RESPONSE RECEIVED: ", res);
+					})
+					.catch((err) => {
+						console.log("AXIOS ERROR: ", err);
+					});
+
+					window.location.href = window.location.origin + window.location.pathname;
 				}
 			}
-		})
-		
-
-	}
+		}
 	}, 10);
 });

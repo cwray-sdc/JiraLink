@@ -18,8 +18,8 @@
     "permissions": ["https://github.com/*"],
     "content_scripts": [
         {
-            "matches": ["https://github.com/*"],
-            "js": ["src/inject/inject.js"]
+            "matches": ["https://github.com/*", "https://stamps.atlassian.net/*"],
+            "js": ["src/inject/inject.js", "src/axios.min.js"]
         }
     ]
 }
