@@ -28,7 +28,7 @@ chrome.extension.sendMessage({}, (response) => {
 							link.innerHTML = `
 								<a 
 									target="_blank" 
-									href="http://jira/browse/${jiraIssueTitle[0].trim()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}"
+									href="http://jira/browse/${jiraIssueTitle[0].trim()}/"
 								>${jiraIssueTitle[0]}</a>: ${jiraIssueTitle[1].trim()}
 								<a 
 									target="_blank" 
