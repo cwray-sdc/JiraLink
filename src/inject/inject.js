@@ -33,7 +33,7 @@ chrome.extension.sendMessage({}, (response) => {
 								<a 
 									target="_blank" 
 									style="background-color: #0366d6; color: #fff; padding: 2px; border-radius: 3px; font-size: 1rem; display: inline-block;" 
-									href="http://jira/browse/${jiraIssueTitle[0].trim()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
+									href="http://jira/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
 							`;
 						}
 					}
@@ -45,12 +45,7 @@ chrome.extension.sendMessage({}, (response) => {
 
 				if (urlParams.get('githubUrl')) {
 
-					const postData = {
-						"object": {
-							"url": urlParams.get('githubUrl'),
-							"title":"GitHub.com Pull Request"
-						}
-					};
+					const postData = {};
 
 					const axiosConfig = {
 						headers: {
@@ -58,12 +53,39 @@ chrome.extension.sendMessage({}, (response) => {
 						}
 					};
 
-					axios.post(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
+
+					axios.get(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
 					.then((res) => {
-						console.log("RESPONSE RECEIVED: ", res);
+						let duplicateDetected = false;
+						const items = res.data;
+
+						if (items.length) {
+							items.map(item => {
+								console.log(item)
+								duplicateDetected = item.object.title === "GitHub.com Pull Request";
+							});
+						}
+
+						if (duplicateDetected) {
+							return;
+						}
+
+						const postData = { "object": {
+							"url": urlParams.get('githubUrl'),
+							"title":"GitHub.com Pull Request"
+						} };
+
+						axios.post(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
+						.then((res) => {
+							console.log("Link added: ", res);
+						})
+						.catch((err) => {
+							console.log("AXIOS Link PR ERROR: ", err);
+						});
+	
 					})
 					.catch((err) => {
-						console.log("AXIOS ERROR: ", err);
+						console.log("AXIOS Get all links ERROR: ", err);
 					});
 
 					window.location.href = window.location.origin + window.location.pathname;
