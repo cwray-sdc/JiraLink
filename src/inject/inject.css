@@ -1,0 +1,35 @@
+.hide {
+    display: none !important;
+}
+
+#linked {
+    color: rgb(36, 41, 46);
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+#linkPR {
+    background-color: rgb(46, 164, 79);
+    color: #fff; 
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 1rem;
+    display: inline-block;
+    position: relative;
+    top: -6px;
+    animation: shake .3s linear 3;
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg);}
+
+    25% { transform: rotate(-10deg);}
+
+    50% { transform: rotate(0deg);}
+
+    75% {transform: rotate(10deg);}
+
+    100% { transform: rotate(0deg);}
+}

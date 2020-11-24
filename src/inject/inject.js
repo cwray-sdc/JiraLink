@@ -25,16 +25,44 @@ chrome.extension.sendMessage({}, (response) => {
 						}
 			
 						if (jiraIssueTitle && jiraIssueTitle.length === 2 && jiraIssueTitle[0].toLowerCase().indexOf('webapps') === 0) {
-							link.innerHTML = `
+							const PRID = window.location.href.split('/')[window.location.href.split('/').length-1];
+							const StoredLinkIDs = JSON.parse(localStorage.getItem('JiraLinksAdded')) || [];
+							const linkedPR = `<span id="linked">Linked to Jira 🔗</span>`;
+
+							let innerHTML = `
 								<a 
 									target="_blank" 
 									href="http://jira/browse/${jiraIssueTitle[0].trim()}/"
 								>${jiraIssueTitle[0]}</a>: ${jiraIssueTitle[1].trim()}
-								<a 
-									target="_blank" 
-									style="background-color: #0366d6; color: #fff; padding: 2px; border-radius: 3px; font-size: 1rem; display: inline-block;" 
-									href="http://jira/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
 							`;
+
+							if (StoredLinkIDs.indexOf(PRID) === -1) {
+								
+								StoredLinkIDs.push(PRID);
+
+								innerHTML += `<a 
+									id="linkPR"
+									target="_blank" 
+									href="http://jira/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
+								`;
+
+								innerHTML += linkedPR;
+
+								link.innerHTML = innerHTML;
+
+								document.getElementById('linked').classList.add('hide');
+
+								document.getElementById("linkPR").addEventListener("click", () => {
+									localStorage.setItem('JiraLinksAdded', JSON.stringify(StoredLinkIDs));
+
+									document.getElementById('linkPR').classList.add('hide');
+									document.getElementById('linked').classList.remove('hide');
+								});
+
+							} else {
+								innerHTML += linkedPR;
+								link.innerHTML = innerHTML;
+							}
 						}
 					}
 				})
