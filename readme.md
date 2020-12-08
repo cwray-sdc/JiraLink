@@ -7,6 +7,7 @@ This is a Chrome extension to make JIRA ticket numbers clickable on GitHub.com
 -   Clone this repo to your desired location.
 -   Open Chrome
 -   Go to chrome://extensions/ in the search bar
+-   Enable "Developer mode"
 -   Click "Load unpacked"
 -   Navigate to where you cloned the repo
 
