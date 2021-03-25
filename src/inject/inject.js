@@ -89,7 +89,6 @@ chrome.extension.sendMessage({}, (response) => {
 
 						if (items.length) {
 							items.map(item => {
-								console.log(item)
 								duplicateDetected = item.object.title === "GitHub.com Pull Request";
 							});
 						}
@@ -106,17 +105,21 @@ chrome.extension.sendMessage({}, (response) => {
 						axios.post(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
 						.then((res) => {
 							console.log("Link added: ", res);
+
+							window.location.href = window.location.origin + window.location.pathname;
 						})
 						.catch((err) => {
 							console.log("AXIOS Link PR ERROR: ", err);
+
+							window.location.href = window.location.origin + window.location.pathname;
 						});
-	
 					})
 					.catch((err) => {
 						console.log("AXIOS Get all links ERROR: ", err);
+
+						window.location.href = window.location.origin + window.location.pathname;
 					});
 
-					window.location.href = window.location.origin + window.location.pathname;
 				}
 			}
 		}
