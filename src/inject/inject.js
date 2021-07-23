@@ -32,7 +32,7 @@ chrome.extension.sendMessage({}, (response) => {
 							let innerHTML = `
 								<a 
 									target="_blank" 
-									href="http://jira/browse/${jiraIssueTitle[0].trim()}/"
+									href="https://stamps.atlassian.net/browse/${jiraIssueTitle[0].trim()}/"
 								>${jiraIssueTitle[0]}</a>: ${jiraIssueTitle[1].trim()}
 							`;
 
@@ -43,7 +43,7 @@ chrome.extension.sendMessage({}, (response) => {
 								innerHTML += `<a 
 									id="linkPR"
 									target="_blank" 
-									href="http://jira/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
+									href="https://stamps.atlassian.net/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
 								`;
 
 								innerHTML += linkedPR;
