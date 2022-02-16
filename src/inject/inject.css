@@ -4,6 +4,8 @@
 
 #linked {
     color: rgb(36, 41, 46);
+    background-color: #fff;
+    border-radius: 3px;
     padding: 2px;
     border-radius: 3px;
     font-size: 1rem;
