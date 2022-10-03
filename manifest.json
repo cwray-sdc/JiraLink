@@ -18,7 +18,7 @@
     "permissions": ["https://github.com/*"],
     "content_scripts": [
         {
-            "matches": ["https://github.com/*", "https://stamps.atlassian.net/*"],
+            "matches": ["https://github.com/*", "https://auctane.atlassian.net/*"],
             "js": ["src/inject/inject.js", "src/axios.min.js"],
             "css": [ "src/inject/inject.css" ]
         }

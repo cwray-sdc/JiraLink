@@ -32,7 +32,7 @@ chrome.extension.sendMessage({}, (response) => {
 							let innerHTML = `
 								<a 
 									target="_blank" 
-									href="https://stamps.atlassian.net/browse/${jiraIssueTitle[0].trim()}/"
+									href="https://auctane.atlassian.net/browse/${jiraIssueTitle[0].trim()}/"
 								>${jiraIssueTitle[0]}</a>: ${jiraIssueTitle[1].trim()}
 							`;
 
@@ -43,7 +43,7 @@ chrome.extension.sendMessage({}, (response) => {
 								innerHTML += `<a 
 									id="linkPR"
 									target="_blank" 
-									href="https://stamps.atlassian.net/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
+									href="https://auctane.atlassian.net/browse/${jiraIssueTitle[0].trim().toUpperCase()}/?githubUrl=${window.location.href}&jiraId=${jiraIssueTitle[0].trim()}">Link PR to Jira</a>
 								`;
 
 								innerHTML += linkedPR;
@@ -82,7 +82,7 @@ chrome.extension.sendMessage({}, (response) => {
 					};
 
 
-					axios.get(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
+					axios.get(`https://auctane.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
 					.then((res) => {
 						let duplicateDetected = false;
 						const items = res.data;
@@ -102,7 +102,7 @@ chrome.extension.sendMessage({}, (response) => {
 							"title":"GitHub.com Pull Request"
 						} };
 
-						axios.post(`https://stamps.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
+						axios.post(`https://auctane.atlassian.net/rest/api/latest/issue/${urlParams.get('jiraId')}/remotelink`, postData, axiosConfig)
 						.then((res) => {
 							console.log("Link added: ", res);
 
