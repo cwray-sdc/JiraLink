@@ -23,8 +23,14 @@ chrome.extension.sendMessage({}, (response) => {
 						} else if (link.innerText.indexOf(' - ') !== -1) {
 							jiraIssueTitle = link.innerText.split(' - ');
 						}
+
+						let projects = ['webapps', 'server'];
+						
+						if (localStorage.getItem('JiraLinkProjects')) {
+							projects = [...JSON.parse(localStorage.getItem('JiraLinkProjects')), ...projects];
+						} 
 			
-						if (jiraIssueTitle && jiraIssueTitle.length === 2 && jiraIssueTitle[0].toLowerCase().indexOf('webapps') === 0) {
+						if (jiraIssueTitle && jiraIssueTitle.length === 2 && projects.indexOf(jiraIssueTitle[0].toLowerCase().split('-')[0]) != -1) {
 							const PRID = window.location.href.split('/')[window.location.href.split('/').length-1];
 							const StoredLinkIDs = JSON.parse(localStorage.getItem('JiraLinksAdded')) || [];
 							const linkedPR = `<span id="linked">Linked to Jira 🔗</span>`;

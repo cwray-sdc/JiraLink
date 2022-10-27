@@ -19,4 +19,12 @@ WEBAPPS-XXXX: Description
 WEBAPPS-XXXX : Description  
 WEBAPPS-XXXX - Description
 
-Note: WEBAPPS is case-insensitive
+Note: WEBAPPS is case-insensitive. SERVER is also supported by default.
+
+# Extending to other teams
+
+If you'd like to extend this to other teams you can add an item to local storage:
+
+Key: JiraLinkProjects
+Value: { "projects": ["YOUR PROJECT NAME"] }
+
